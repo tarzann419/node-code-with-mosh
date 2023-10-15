@@ -33,8 +33,7 @@ app.get('/api/courses/:id', (req, res) => {
 app.post('/api/courses', (req,res) => {
     const { error } = validateCourse(req.body) // object destructuring
     if (error) {
-        res.status(400).send(error.details[0].message)
-        return;
+        return res.status(400).send(error.details[0].message)
     } 
     const course = {
         id : courses.length + 1,
@@ -50,13 +49,12 @@ app.post('/api/courses', (req,res) => {
 app.put('/api/courses/:id', (req,res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) {
-        res.status(404).send('course wasnt found or doesnt exist');
+        return res.status(404).send('course wasnt found or doesnt exist');
     }
 
     const { error } = validateCourse(req.body) // object destructuring
     if (error) {
-        res.status(400).send(error.details[0].message)
-        return;
+        return res.status(400).send(error.details[0].message)
     } 
 
     course.name = req.body.name
@@ -68,7 +66,7 @@ app.delete('/api/courses/:id', (req,res) => {
     // find by id
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) {
-        res.status(404).send('course wasnt found or doesnt exist');
+        return res.status(404).send('course wasnt found or doesnt exist');
     }
 
     // delete by using 'splice'
