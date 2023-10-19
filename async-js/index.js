@@ -1,13 +1,23 @@
 console.log('Before')
 
 // async callback functions
-getUser(1, function(user){
-    getRepo( user.username, (repos) => {
-        console.log(repos)
-    } )
-    // CALLBACK HELL
-})
+getUser(1, displayUsers)
 
+
+function displayUsers(user){
+    getRepo( user.username, displayRepos )
+}
+
+
+function displayRepos(repos){
+    getCommits(repos, displayCommits)
+        console.log(repos)
+}
+
+
+function displayCommits(commits){
+    console.log(commits)
+}
 // SYNC CALLBACK
 console.log('Before');
 const user = getUser(1);
