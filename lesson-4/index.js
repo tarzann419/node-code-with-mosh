@@ -2,7 +2,26 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const Joi = require('joi');
+const logger = require('./logger');
+const authenticating = require('./authenticatingMiddleware');
+
 app.use(express.json()); // returns a middleware
+app.use(express.urlencoded({ extended : true }));
+app.use(express.static('public'));
+
+// custom middleware
+app.use(logger);
+app.use(authenticating);
+
+// third party middleware
+const morgan = require('morgan');
+// console.log(`${process.env.NODE_ENV}`)
+// console.log(app.get('env'))
+
+if (app.get('env') == 'development') {
+    app.use(morgan('tiny'))
+    console.log('Morgan enabled...')
+}
 
 
 const courses = [
